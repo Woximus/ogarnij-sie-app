@@ -1,0 +1,52 @@
+<div class="kontener">
+  <h2>Załóż konto</h2>
+  <p>OgarnijSie - Asystent Dorosłości</p>
+
+  <div *ngIf="wiadomosc" class="sukces" style="text-align: center; padding: 30px;">
+    <h3 style="color: #155724; margin-top: 0;">✅ Rejestracja się udała!</h3>
+    <p style="font-size: 16px;">{{ wiadomosc }}</p>
+    <button (click)="wiadomosc = ''" style="width: auto; padding: 10px 20px;">Zarejestruj kolejną osobę</button>
+  </div>
+
+  <div *ngIf="blad" class="blad">{{ blad }}</div>
+
+  <form *ngIf="!wiadomosc" (ngSubmit)="onSubmit(rejForm)" #rejForm="ngForm" (input)="blad = ''">
+    <div class="grupa">
+      <label>Imię:</label>
+      <input type="text" name="imie" [(ngModel)]="uzytkownik.imie" required>
+    </div>
+
+    <div class="grupa">
+      <label>Nazwisko:</label>
+      <input type="text" name="nazwisko" [(ngModel)]="uzytkownik.nazwisko" required>
+    </div>
+
+    <div class="grupa">
+      <label>E-mail:</label>
+      <input type="email" name="email" [(ngModel)]="uzytkownik.email" required
+             pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.pl$" #emailCtrl="ngModel">
+      <div *ngIf="emailCtrl.invalid && emailCtrl.dirty" class="dynamiczny-blad">
+        E-mail musi zawierać znak @ i kończyć się na .pl
+      </div>
+    </div>
+
+    <div class="grupa">
+      <label>Hasło:</label>
+      <input type="password" name="haslo" [(ngModel)]="uzytkownik.haslo" required
+             pattern="(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{12,}" #hasloCtrl="ngModel">
+      <div *ngIf="hasloCtrl.invalid && hasloCtrl.dirty" class="dynamiczny-blad">
+        Wymagane: min. 12 znaków, jedna wielka litera i znak specjalny.
+      </div>
+    </div>
+
+    <div class="grupa">
+      <label>Powtórz hasło:</label>
+      <input type="password" name="powtorzHaslo" [(ngModel)]="uzytkownik.powtorzHaslo" required #powtorzCtrl="ngModel">
+      <div *ngIf="uzytkownik.haslo !== uzytkownik.powtorzHaslo && powtorzCtrl.dirty" class="dynamiczny-blad">
+        Hasła nie są identyczne!
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!rejForm.form.valid || uzytkownik.haslo !== uzytkownik.powtorzHaslo">Zarejestruj się</button>
+  </form>
+</div>

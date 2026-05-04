@@ -1,0 +1,35 @@
+.kontener {
+  max-width: 400px;
+  margin: 50px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-color: #fcfcfc;
+}
+
+h2 { margin-top: 0; color: #333; }
+p { color: #666; margin-bottom: 20px; font-size: 14px; }
+
+.grupa { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; font-size: 14px;}
+input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; outline: none;}
+input:focus { border-color: #007bff; }
+
+button {
+  width: 100%; padding: 12px; margin-top: 10px;
+  background-color: #007bff; color: white; border: none;
+  border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold;
+}
+button:disabled { background-color: #a0c4ff; cursor: not-allowed; }
+button:hover:not(:disabled) { background-color: #0056b3; }
+
+.sukces { padding: 15px; background-color: #d4edda; color: #155724; margin-bottom: 20px; border-radius: 6px; font-weight: bold; }
+.blad { padding: 15px; background-color: #f8d7da; color: #721c24; margin-bottom: 20px; border-radius: 6px; font-weight: bold;}
+
+.dynamiczny-blad {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: 600;
+}

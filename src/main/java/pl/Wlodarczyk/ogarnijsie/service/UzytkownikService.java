@@ -7,7 +7,7 @@ import pl.Wlodarczyk.ogarnijsie.repository.UzytkownikRepository;
 
 import java.time.LocalDateTime;
 
-@Service // Logika
+@Service
 public class UzytkownikService {
 
     private final UzytkownikRepository uzytkownikRepository;
@@ -16,32 +16,34 @@ public class UzytkownikService {
         this.uzytkownikRepository = uzytkownikRepository;
     }
 
-    // Proces Rejestracji
     public String zarejestruj(RejestracjaDto dto) {
 
-        // Sprawdza hasla
+        if (!dto.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.pl$")) {
+            throw new RuntimeException("Błąd: E-mail musi zawierać znak @ i kończyć się na domenie .pl!");
+        }
+
+        if (!dto.getHaslo().matches("^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>]).{12,}$")) {
+            throw new RuntimeException("Błąd: Hasło musi mieć min. 12 znaków, w tym jedną wielką literę i znak specjalny!");
+        }
+
         if (!dto.getHaslo().equals(dto.getPowtorzHaslo())) {
             throw new RuntimeException("Błąd: Hasła nie są takie same!");
         }
 
-        // Sprawdza maila
         if (uzytkownikRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Błąd: Ten adres e-mail jest już zajęty!");
         }
 
-        // Tworzy czysty rekord
+        // Zapis do bazy
         Uzytkownik u = new Uzytkownik();
-        // z dto do bazy
         u.setImie(dto.getImie());
         u.setNazwisko(dto.getNazwisko());
         u.setEmail(dto.getEmail());
         u.setHaslo(dto.getHaslo());
         u.setDataUtworzenia(LocalDateTime.now());
 
-        // Na stale do bazy
         uzytkownikRepository.save(u);
 
-        // Powitanie
         return "Cześć " + dto.getImie() + "! Witamy w Asystencie Dorosłości. Twoje konto zostało utworzone.";
     }
 }
